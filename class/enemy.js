@@ -20,7 +20,7 @@ class Enemy extends Character {
     var moveTo = Math.floor(Math.random() * possibleIdx.length)
     var direction = possibleIdx[moveTo]
     this.currentRoom = this.currentRoom.exits[direction]
-    this.cooldown += 1000
+    this.cooldown += 5000
     return this.currentRoom
   }
 
@@ -41,13 +41,6 @@ class Enemy extends Character {
   }
 
   rest() {
-    // Wait until cooldown expires, then act
-    // const resetCooldown = function() {
-    //   this.cooldown -= 1000;
-    //   this.act();
-    // };
-    console.log(`${this.name} is resting`)
-    console.log(`${this.name} has ${this.cooldown} cooldown`)
     setTimeout(() => {
       this.cooldown -= 1000;
       this.act()
@@ -57,6 +50,7 @@ class Enemy extends Character {
   attack() {
     console.log(`${this.name} attacks ${this.attackTarget.name}`)
     console.log(`${this.player.name} has ${this.player.health} health`)
+    console.log( `${this.name} has ${this.health} health`)
     if (this.player === this.attackTarget) {
       this.player.applyDamage(this.strength)
     }
@@ -69,6 +63,7 @@ class Enemy extends Character {
     this.health -= amount
     if (this.health === 0){
       this.die()
+      console.log(`${this.name} has died`)
     }
     return this.health
   }
@@ -76,7 +71,6 @@ class Enemy extends Character {
 
 
   act() {
-    console.log(`${this.name} is acting`)
     if (this.health <= 0) {
       // Dead, do nothing;
     } else if (this.cooldown > 0) {
@@ -100,9 +94,10 @@ class Enemy extends Character {
 
 
   scratchNose() {
-    this.cooldown += 1000;
-
-    this.alert(`${this.name} scratches its nose`);
+    this.cooldown += 5000;
+    if (this.currentRoom === this.player.currentRoom){
+      this.alert(`${this.name} scratches its nose`);
+    }
 
   }
 }
