@@ -34,33 +34,53 @@ class Player extends Character {
   }
 
   takeItem(itemName) {
+    let gottenItem = this.currentRoom.getItemByName(itemName)
+    this.items.push(gottenItem)
 
-    // Fill this in
+    this.currentRoom.items = this.removeFromArray(itemName, this.currentRoom.items)
 
+    return gottenItem
   }
 
   dropItem(itemName) {
+    let item = this.getItemByName(itemName)
+    this.currentRoom.items.push(item)
 
-    // Fill this in
-
+    this.items = this.removeFromArray(itemName, this.items)
+    return item
   }
 
   eatItem(itemName) {
-
-    // Fill this in
-
+    let gottenItem = this.getItemByName(itemName)
+    if (gottenItem instanceof Food) {
+      this.currentRoom.items = this.removeFromArray(itemName, this.currentRoom.items)
+      this.items = this.removeFromArray(itemName, this.items)
+      this.health += 10
+    }
   }
 
   getItemByName(name) {
+    let foundItem
+    this.items.forEach(item => {
+      if (item.name === name.toLowerCase()) {
+        foundItem = item
+      }
+    })
 
-    // Fill this in
-
+    return foundItem
   }
 
   hit(name) {
-
-    // Fill this in
-
+    let enemy = this.currentRoom.getEnemyByName(name)
+    if (enemy) {
+      enemy.applyDamage(this.strength)
+    }
+    enemy.attackTarget = this
+    // console.log(`${this.name} hit ${enemy.name} for ${this.strength} damage!`)
+    // console.log(`${enemy.name} has ${enemy.health} health left!`)
+    // console.log(`${this.name} has ${this.health} health left!`)
+    enemy.act()
+    return enemy.attackTarget
   }
 
   die() {
@@ -69,6 +89,8 @@ class Player extends Character {
   }
 
 }
+
+
 
 module.exports = {
   Player,

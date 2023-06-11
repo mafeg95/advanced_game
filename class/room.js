@@ -52,14 +52,15 @@ class Room {
   }
 
   getItemByName(name) {
-
-    // Fill this in
-
+    let availableItems = this.items
+    let item = availableItems.find(item => item.name === name.toLowerCase())
+    return item
   }
 
   getEnemyByName(name) {
-
-    // Fill this in
+    let availableEnemies = this.getEnemies()
+    let enemy = availableEnemies.find(enemy => enemy.name === name.toLowerCase())
+    return enemy
   }
 }
 

@@ -29,7 +29,7 @@ class World {
   }
 
   static loadWorld(worldData) {
-
+    
     const roomList = worldData.rooms;
     const itemList = worldData.items;
     const enemyList = worldData.enemies;
@@ -80,6 +80,7 @@ class World {
 
       let enemyData = enemyList[i];
       let enemyRoom = World.rooms[enemyData.room];
+      
       let newEnemy = new Enemy(enemyData.name, enemyData.description, enemyRoom);
       World.enemies.push(newEnemy);
     }
